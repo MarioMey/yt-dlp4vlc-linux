@@ -33,23 +33,32 @@ function parse()
     handle:close()
 
     -- Trim any whitespace
-    video_url = video_url:gsub("^%s+", ""):gsub("%s+$", "")
-    audio_url = audio_url:gsub("^%s+", ""):gsub("%s+$", "")
+    video_url = video_url and video_url:gsub("^%s+", ""):gsub("%s+$", "") or ""
+    audio_url = audio_url and audio_url:gsub("^%s+", ""):gsub("%s+$", "") or ""
 
     -- Log the resolved URLs
     vlc.msg.info("[YouTube Resolver] Original URL: " .. youtube_url)
     vlc.msg.info("[YouTube Resolver] Video URL: " .. video_url)
-    vlc.msg.info("[YouTube Resolver] Audio URL: " .. audio_url)
 
-    -- Create a playlist item with both video and audio URLs
-    return {
-        {
-            path = video_url,
-            name = vlc.path .. " (Video)",
-            options = {
-                -- Add audio URL as input option
-                ":input-slave=" .. audio_url
+    if audio_url and audio_url ~= "" then
+        vlc.msg.info("[YouTube Resolver] Audio URL: " .. audio_url)
+        return {
+            {
+                path = video_url,
+                name = vlc.path .. " (Video)",
+                options = {
+                    -- Add audio URL as input option
+                    ":input-slave=" .. audio_url
+                }
             }
         }
-    }
+    else
+        vlc.msg.warn("[YouTube Resolver] No separate audio URL found. Playing single URL with both video and audio.")
+        return {
+            {
+                path = video_url,
+                name = vlc.path .. " (Video + Audio)"
+            }
+        }
+    end
 end

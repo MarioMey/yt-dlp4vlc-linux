@@ -1,17 +1,12 @@
-Simple lua script that wraps yt-dlp.exe into VLC
+Simple lua script that wraps yt-dlp into VLC in Linux.
 
-By default it requires yt-dlp.exe in the VLC directory but feel free to change its path in the script
+Forked from [yt-dlp4vlc](https://github.com/FalloNero/yt-dlp4vlc). Thanks, FalloNero.
 
-Also uses a powershell command to hide the cmd window that appears meanwhile yt-dlp cooks the links,
-also it uses if found yt-dlp-silent.exe that just a c++ wrapper that does kinda the same without using powershell
+### Installation:
+- It requires [yt-dlp](https://github.com/yt-dlp/yt-dlp/) installed. So, install it if you don't have it.
+- Copy `youtube.lua` to `~/.local/share/vlc/lua/playlist`. VLC will read this file before the one installed at system-wide.
 
-
-Simply open a network stream in VLC and let it rip
-
-add &quality=xxx to the URL to select the video quality, omit to default to maximum quality possible
-
-360p
-480p
-720p
-1080p
-2160p
+### Usage:
+- Copy a YouTube address and just paste it on VLC, by pressing Ctrl-V in main window (or paste it in "Open Network Stream").
+- If you add `&quality=360` to address, you tell the script to tell yt-dlp to play only that file (qualities: 144p, 360p, 480p, 720p, 1080p, 2160p).
+- Wait some seconds an enjoy.

@@ -1,7 +1,15 @@
 -- YouTube Link Resolver for VLC with Separate Video and Audio URLs (Linux version)
 -- Place this script in VLC's lua/playlist directory
 
-local yt_dlp_path = 'yt-dlp' -- in Linux no ".exe"
+-- try to find yt-dlp in PATH; if not, uses 'yt-dlp'
+local function find_in_path(name)
+	local f = io.popen('command -v ' .. name .. ' 2>/dev/null')
+	if not f then return name end
+	local path = f:read('*l')
+	f:close()
+	return (path and path ~= '') and path or name
+end
+local yt_dlp_path = find_in_path('yt-dlp')
 
 function sleep(s)
   local ntime = os.time() + s
